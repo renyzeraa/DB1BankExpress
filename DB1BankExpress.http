@@ -1,0 +1,6 @@
+@DB1BankExpress_HostAddress = http://localhost:5073
+
+GET {{DB1BankExpress_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
