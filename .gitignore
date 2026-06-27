@@ -1,5 +1,6 @@
 bin/
 obj/
+build-validation/
 
 # User-specific files
 *.rsuser
