@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB1BankExpress.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260626204737_table-customer")]
-    partial class tablecustomer
+    [Migration("20260627005427_customer")]
+    partial class customer
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,8 @@ namespace DB1BankExpress.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
 
                     b.HasKey("Id");
 
