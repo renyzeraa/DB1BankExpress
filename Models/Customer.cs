@@ -22,7 +22,6 @@ public class Customer
 
   public Customer(string name)
   {
-    Id = Guid.NewGuid();
     Name = name;
   }
 }

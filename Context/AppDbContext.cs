@@ -10,5 +10,22 @@ public class AppDbContext : DbContext
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Customer>()
+            .HasOne(e => e.Documents)
+            .WithOne()
+            .HasForeignKey<Documents>(e => e.Id)
+            .IsRequired();
+
+        modelBuilder.Entity<Customer>()
+            .HasOne(e => e.Address)
+            .WithOne()
+            .HasForeignKey<Address>(e => e.Id)
+            .IsRequired();
+    }
+
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Documents> Documents => Set<Documents>();
+    public DbSet<Address> Address => Set<Address>();
 }

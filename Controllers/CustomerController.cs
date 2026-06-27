@@ -18,17 +18,19 @@ public class CustomerController : ControllerBase
   [HttpGet]
   public IActionResult Get()
   {
-    var customers = _context.Customers.AsNoTracking();
+    var customers = _context.Customers
+      .Include(c => c.Address)
+      .Include(c => c.Documents)
+      .AsNoTracking();
     return Ok(customers);
   }
 
   [HttpPost]
   public IActionResult Post([FromBody] Customer customer)
   {
-    var newCustomer = new Customer(customer.Name);
-    _context.Customers.Add(newCustomer);
+    _context.Customers.Add(customer);
     _context.SaveChanges();
-    return CreatedAtAction(nameof(Get), new { name = newCustomer.Name }, newCustomer);
+    return CreatedAtAction(nameof(Get), new { name = customer.Name }, customer);
   }
 
   [HttpPut]
