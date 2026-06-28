@@ -1,6 +1,5 @@
+using DB1BankExpress.Configs;
 using DB1BankExpress.Context;
-using DB1BankExpress.Repositories;
-using DB1BankExpress.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +11,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-    
-// toda vez que for criado um controller, o .net vai criar uma instância do CustomerRepository e do CustomerService
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+builder.Services.RegisterMyServices();
+builder.Services.RegisterMyRepositories();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
