@@ -17,6 +17,13 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+// Apply pending migrations and create the database if it doesn't exist
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
