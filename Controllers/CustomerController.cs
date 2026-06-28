@@ -1,63 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
 using DB1BankExpress.Models;
-using DB1BankExpress.Context;
-using Microsoft.EntityFrameworkCore;
+using DB1BankExpress.Services;
+
 namespace DB1BankExpress.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class CustomerController : ControllerBase
 {
-  private readonly AppDbContext _context;
+  private readonly ICustomerService _service;
 
-  public CustomerController(AppDbContext context)
+  public CustomerController(ICustomerService service)
   {
-    _context = context;
+    _service = service;
   }
 
   [HttpGet]
   public IActionResult Get()
   {
-    var customers = _context.Customers
-      .Include(c => c.Address)
-      .Include(c => c.Documents)
-      .AsNoTracking();
-    return Ok(customers);
+    return Ok(_service.GetAll());
   }
 
   [HttpPost]
   public IActionResult Post([FromBody] Customer customer)
   {
-    _context.Customers.Add(customer);
-    _context.SaveChanges();
-    return CreatedAtAction(nameof(Get), new { name = customer.Name }, customer);
+    return Created("", _service.Save(customer));
   }
 
   [HttpPut]
   public IActionResult Put([FromBody] Customer customer)
   {
-    var existingCustomer = _context.Customers.Where(c => c.Id == customer.Id).FirstOrDefault();
-    if (existingCustomer == null)
-    {
-      return NotFound();
-    }
-
-    existingCustomer.Name = customer.Name;
-    _context.SaveChanges();
-    return Ok(existingCustomer);
+    return Ok(_service.Change(customer));
   }
 
   [HttpDelete]
-  public IActionResult Delete(Guid Id)
+  public IActionResult Delete(Guid id)
   {
-    var existingCustomer = _context.Customers.Where(c => c.Id == Id).FirstOrDefault();
-    if (existingCustomer == null)
-    {
-      return NotFound();
-    }
+    _service.Delete(id);
 
-    _context.Customers.Remove(existingCustomer);
-    _context.SaveChanges();
     return NoContent();
   }
 }
