@@ -37,12 +37,13 @@ Container MySQL esperado pelo projeto:
 
 ## Fluxo de execução local
 
-A aplicação não aplica migrations automaticamente no startup. Por isso, o fluxo correto é:
+A aplicação aplica migrations pendentes automaticamente no startup. O fluxo padrão é:
 
 1. Subir o MySQL.
 2. Restaurar pacotes.
-3. Aplicar migration com `dotnet ef database update`.
-4. Subir a API com `dotnet run --launch-profile http`.
+3. Subir a API com `dotnet run --launch-profile http`.
+
+Se você quiser validar a conexão e a migration manualmente antes de iniciar a API, pode executar `dotnet ef database update` entre os passos 2 e 3.
 
 ## WSL
 
@@ -70,6 +71,8 @@ cd /mnt/c/Users/renan.silva/Documents/cursos/DB1BankExpress
 - `POST /api/customer`
 - `PUT /api/customer`
 - `DELETE /api/customer?Id={guid}`
+
+Observação: o `POST /api/customer` recebe o modelo `Customer` completo. O exemplo abaixo é simplificado e serve como referência introdutória do endpoint, não como descrição completa do contrato persistido atual.
 
 Exemplo para criar cliente:
 
