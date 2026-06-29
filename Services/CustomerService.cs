@@ -1,3 +1,5 @@
+using AutoMapper;
+using DB1BankExpress.Dtos;
 using DB1BankExpress.Models;
 using DB1BankExpress.Repositories;
 
@@ -6,10 +8,12 @@ namespace DB1BankExpress.Services;
 public class CustomerService : ICustomerService
 {
   private readonly ICustomerRepository _repository;
+  private readonly IMapper _mapper;
 
-  public CustomerService(ICustomerRepository repository)
+  public CustomerService(ICustomerRepository repository, IMapper mapper)
   {
     _repository = repository;
+    _mapper = mapper;
   }
 
   public IEnumerable<Customer> GetAll()
@@ -27,11 +31,11 @@ public class CustomerService : ICustomerService
     return _repository.Find(id) ?? throw new InvalidOperationException($"Customer with ID {id} not found.");
   }
 
-  public Customer Change(Customer customer)
+  public Customer Change(CustomerUpdate update)
   {
-    var existingCustomer = Find(customer.Id);
-    existingCustomer.Name = customer.Name;
-    
+    var existingCustomer = Find(update.Id);
+    _mapper.Map(update, existingCustomer);
+
     return _repository.Change(existingCustomer);
   }
 

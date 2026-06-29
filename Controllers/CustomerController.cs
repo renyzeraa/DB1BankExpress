@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DB1BankExpress.Models;
 using DB1BankExpress.Services;
+using DB1BankExpress.Dtos;
 
 namespace DB1BankExpress.Controllers;
 
@@ -28,7 +29,7 @@ public class CustomerController : ControllerBase
   }
 
   [HttpPut]
-  public IActionResult Put([FromBody] Customer customer)
+  public IActionResult Put([FromBody] CustomerUpdate customer)
   {
     return Ok(_service.Change(customer));
   }
