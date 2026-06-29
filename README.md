@@ -1,6 +1,6 @@
 # DB1BankExpress
 
-API ASP.NET Core com MySQL.
+API REST para gerenciamento de clientes, desenvolvida como projeto de estudo do curso da DB1 sobre .NET, utilizando ASP.NET Core, .NET 10, Entity Framework Core, MySQL com Pomelo, Docker e documentação de endpoints com Swagger.
 
 ## Pré-requisitos
 
